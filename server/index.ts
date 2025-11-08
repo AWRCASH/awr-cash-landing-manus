@@ -1,3 +1,4 @@
+// server/index.ts
 import express from "express";
 import { createServer } from "http";
 import path from "path";
@@ -10,24 +11,27 @@ async function startServer() {
   const app = express();
   const server = createServer(app);
 
-  // Serve static files from dist/public in production
+  // Caminho da pasta de arquivos estáticos gerada pelo Vite
   const staticPath =
     process.env.NODE_ENV === "production"
       ? path.resolve(__dirname, "public")
       : path.resolve(__dirname, "..", "dist", "public");
 
+  // Servir os arquivos do front-end
   app.use(express.static(staticPath));
 
-  // Handle client-side routing - serve index.html for all routes
+  // Redirecionar qualquer rota pro index.html (SPA)
   app.get("*", (_req, res) => {
     res.sendFile(path.join(staticPath, "index.html"));
   });
 
-  const port = process.env.PORT || 3000;
-
+  const port = Number(process.env.PORT) || 3000;
   server.listen(port, () => {
-    console.log(`Server running on http://localhost:${port}/`);
+    console.log(`Servidor rodando em http://localhost:${port}/`);
   });
 }
 
-startServer().catch(console.error);
+startServer().catch((err) => {
+  console.error("Erro ao iniciar servidor:", err);
+  process.exit(1);
+});

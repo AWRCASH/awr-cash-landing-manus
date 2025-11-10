@@ -1,11 +1,14 @@
 import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
+import fs from "node:fs";
 import path from "path";
 import { defineConfig } from "vite";
 import { vitePluginManusRuntime } from "vite-plugin-manus-runtime";
 
+const plugins = [react(), tailwindcss(), vitePluginManusRuntime()];
+
 export default defineConfig({
-  plugins: [react(), tailwindcss(), vitePluginManusRuntime()],
+  plugins,
   root: path.resolve(__dirname, "client"),
   resolve: {
     alias: {
@@ -14,14 +17,14 @@ export default defineConfig({
       "@assets": path.resolve(__dirname, "attached_assets"),
     },
   },
+  envDir: path.resolve(__dirname),
   build: {
     outDir: path.resolve(__dirname, "dist/public"),
     emptyOutDir: true,
     rollupOptions: {
-      input: path.resolve(__dirname, "client/index.html"),
+      external: [], // segurança contra warnings de módulos não resolvidos
     },
   },
-  envDir: path.resolve(__dirname),
   server: {
     port: 3000,
     strictPort: false,
@@ -36,8 +39,8 @@ export default defineConfig({
       "127.0.0.1",
     ],
     fs: {
-      strict: false,
-      allow: ["client", "shared"],
+      strict: true,
+      deny: ["**/.*"],
     },
   },
 });

@@ -1,20 +1,10 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import tailwindcss from "@tailwindcss/vite";
-import { vitePluginManusRuntime } from "vite-plugin-manus-runtime";
-import tsconfigPaths from 'vite-tsconfig-paths'; // <-- PASSO 2.1: Importar o novo plugin
-
-export default defineConfig({
-  plugins: [
-    react(), 
-    tailwindcss(), 
-    vitePluginManusRuntime(),
-    tsconfigPaths() // <-- PASSO 2.2: Adicionar o plugin na lista
-  ],
-  root: "client",
-  // A seção "resolve" foi removida daqui de propósito. O plugin cuidará disso.
-  build: {
-    outDir: "../dist",
-    emptyOutDir: true,
+{
+  "compilerOptions": {
+    "composite": true,
+    "skipLibCheck": true,
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "allowSyntheticDefaultImports": true
   },
-});
+  "include": ["vite.config.ts"]
+}

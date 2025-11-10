@@ -16,11 +16,16 @@ export default defineConfig({
       "@assets": path.resolve(__dirname, "attached_assets"),
     },
   },
-  envDir: path.resolve(import.meta.dirname),
-  root: path.resolve(import.meta.dirname, "client"),
+  // Removido import.meta.dirname — não funciona no build da Vercel
+  envDir: path.resolve(__dirname),
+  root: path.resolve(__dirname, "client"),
   build: {
-    outDir: path.resolve(import.meta.dirname, "client", "dist"),
+    // Faz o build sair no mesmo lugar configurado no vercel.json
+    outDir: path.resolve(__dirname, "dist/public"),
     emptyOutDir: true,
+    rollupOptions: {
+      external: [],
+    },
   },
   server: {
     port: 3000,

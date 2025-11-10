@@ -1,22 +1,20 @@
-{
-  "compilerOptions": {
-    "target": "ES2022",
-    "lib": ["ES2023"],
-    "module": "ESNext",
-    "skipLibCheck": true,
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import tailwindcss from "@tailwindcss/vite";
+import { vitePluginManusRuntime } from "vite-plugin-manus-runtime";
+import tsconfigPaths from 'vite-tsconfig-paths'; // <-- PASSO 2.1: Importar o novo plugin
 
-    /* Bundler mode */
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
-    "isolatedModules": true,
-    "moduleDetection": "force",
-    "noEmit": true,
-
-    /* Linting */
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+export default defineConfig({
+  plugins: [
+    react(), 
+    tailwindcss(), 
+    vitePluginManusRuntime(),
+    tsconfigPaths() // <-- PASSO 2.2: Adicionar o plugin na lista
+  ],
+  root: "client",
+  // A seção "resolve" foi removida daqui de propósito. O plugin cuidará disso.
+  build: {
+    outDir: "../dist",
+    emptyOutDir: true,
   },
-  "include": ["vite.config.ts"]
-}
+});

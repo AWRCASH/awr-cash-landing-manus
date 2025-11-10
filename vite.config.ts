@@ -1,14 +1,13 @@
 import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
-import fs from "node:fs";
 import path from "path";
 import { defineConfig } from "vite";
 import { vitePluginManusRuntime } from "vite-plugin-manus-runtime";
 
-const plugins = [react(), tailwindcss(), vitePluginManusRuntime()];
+const __dirname = path.resolve(); // garante compatibilidade no Vercel/Linux
 
 export default defineConfig({
-  plugins,
+  plugins: [react(), tailwindcss(), vitePluginManusRuntime()],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "client/src"),
@@ -16,16 +15,11 @@ export default defineConfig({
       "@assets": path.resolve(__dirname, "attached_assets"),
     },
   },
-  // Removido import.meta.dirname — não funciona no build da Vercel
   envDir: path.resolve(__dirname),
   root: path.resolve(__dirname, "client"),
   build: {
-    // Faz o build sair no mesmo lugar configurado no vercel.json
     outDir: path.resolve(__dirname, "dist/public"),
     emptyOutDir: true,
-    rollupOptions: {
-      external: [],
-    },
   },
   server: {
     port: 3000,

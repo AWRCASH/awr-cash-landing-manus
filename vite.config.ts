@@ -5,42 +5,23 @@ import path from "path";
 import { defineConfig } from "vite";
 import { vitePluginManusRuntime } from "vite-plugin-manus-runtime";
 
-const plugins = [react(), tailwindcss(), vitePluginManusRuntime()];
-
 export default defineConfig({
-  plugins,
-  root: path.resolve(__dirname, "client"),
+  plugins: [react(), tailwindcss(), vitePluginManusRuntime()],
+  root: "./client",
   resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "client/src"),
-      "@shared": path.resolve(__dirname, "shared"),
-      "@assets": path.resolve(__dirname, "attached_assets"),
-    },
+    alias: [
+      { find: "@", replacement: path.resolve(__dirname, "./client/src") },
+      { find: "@shared", replacement: path.resolve(__dirname, "./shared") },
+      { find: "@assets", replacement: path.resolve(__dirname, "./attached_assets") },
+    ],
   },
   envDir: path.resolve(__dirname),
   build: {
-    outDir: path.resolve(__dirname, "dist/public"),
+    outDir: path.resolve(__dirname, "client/dist"),
     emptyOutDir: true,
-    rollupOptions: {
-      external: [], // segurança contra warnings de módulos não resolvidos
-    },
   },
   server: {
     port: 3000,
-    strictPort: false,
     host: true,
-    allowedHosts: [
-      ".manuspre.computer",
-      ".manus.computer",
-      ".manus-asia.computer",
-      ".manuscomputer.ai",
-      ".manusvm.computer",
-      "localhost",
-      "127.0.0.1",
-    ],
-    fs: {
-      strict: true,
-      deny: ["**/.*"],
-    },
   },
 });

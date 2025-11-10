@@ -4,10 +4,9 @@ import path from "path";
 import { defineConfig } from "vite";
 import { vitePluginManusRuntime } from "vite-plugin-manus-runtime";
 
-const __dirname = path.resolve(); // garante compatibilidade no Vercel/Linux
-
 export default defineConfig({
   plugins: [react(), tailwindcss(), vitePluginManusRuntime()],
+  root: path.resolve(__dirname, "client"),
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "client/src"),
@@ -15,12 +14,14 @@ export default defineConfig({
       "@assets": path.resolve(__dirname, "attached_assets"),
     },
   },
-  envDir: path.resolve(__dirname),
-  root: path.resolve(__dirname, "client"),
   build: {
     outDir: path.resolve(__dirname, "dist/public"),
     emptyOutDir: true,
+    rollupOptions: {
+      input: path.resolve(__dirname, "client/index.html"),
+    },
   },
+  envDir: path.resolve(__dirname),
   server: {
     port: 3000,
     strictPort: false,
@@ -35,8 +36,8 @@ export default defineConfig({
       "127.0.0.1",
     ],
     fs: {
-      strict: true,
-      deny: ["**/.*"],
+      strict: false,
+      allow: ["client", "shared"],
     },
   },
 });

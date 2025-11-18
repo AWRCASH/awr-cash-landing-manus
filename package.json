@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "cd client && vite --host",
-    "build": "vite build --outDir dist --root client",
+    "build": "vite build --outDir dist",
     "preview": "cd client && vite preview --host",
     "check": "tsc --noEmit",
     "format": "prettier --write ."

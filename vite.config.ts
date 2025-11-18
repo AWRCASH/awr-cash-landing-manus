@@ -6,14 +6,11 @@ import { vitePluginManusRuntime } from "vite-plugin-manus-runtime";
 
 export default defineConfig({
   plugins: [react(), tailwindcss(), vitePluginManusRuntime()],
-  root: "client",
+
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "src"),
+      "@": path.resolve(__dirname, "client/src"),
     },
   },
-  build: {
-    outDir: "../dist",
-    emptyOutDir: true,
-  },
+
 });
